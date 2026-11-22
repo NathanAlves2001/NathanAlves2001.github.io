@@ -72,7 +72,8 @@ nav.menu a:hover{color:var(--tinta)}
 /* abertura em duas colunas: texto + colagem de telas */
 .hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
 .hero-txt{display:flex;flex-direction:column;gap:22px;min-width:0}
-.abertura .hero h1{font-size:clamp(46px,6.4vw,88px)}
+.abertura .hero h1{font-size:clamp(56px,8vw,112px)}
+.subtit{margin:-8px 0 0;font:700 clamp(22px,2.6vw,32px)/1.15 var(--f-display);text-transform:uppercase;letter-spacing:.4px;color:var(--tinta)}
 .numeros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:6px 0 0;border-top:1px solid var(--linha)}
 .numeros div{padding:14px 14px 0 0}
 .numeros div+div{padding-left:16px;border-left:1px solid var(--linha)}
@@ -230,8 +231,9 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
   <section class="abertura" aria-labelledby="t-abertura">
     <div class="hero">
       <div class="hero-txt">
-        <div class="eti">Analista Pleno · Automação · Dados · Logística</div>
-        <h1 id="t-abertura">Eu tiro a operação da <mark>planilha</mark>.</h1>
+        <div class="eti">Analista Pleno · Portfólio</div>
+        <h1 id="t-abertura">Nathan <mark>Alves</mark></h1>
+        <p class="subtit">Automação, dados e sistemas para logística</p>
         <p class="lead">Comecei como auxiliar de loja e cresci dentro da operação de transporte. Hoje crio as ferramentas da equipe: portais, painéis em tempo real e robôs que fazem o trabalho repetitivo.</p>
         <div class="acoes">
           <a class="btn pri" href="#projetos">Ver os projetos</a>
