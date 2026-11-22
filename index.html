@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Nathan Alves</title>
+<meta name="description" content="Nathan Alves — automação, dados e sistemas para a operação de transporte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: rota "Planilha → Sistema" no topo; projetos como etiquetas de carga (waybill) em coluna larga */
+:root{
+  --papel:#F3F4F1;        /* fundo: papel de manifesto, levemente frio */
+  --folha:#FFFFFF;        /* superfície das etiquetas */
+  --tinta:#15191E;        /* texto principal (asfalto) */
+  --tinta-2:#4B525B;      /* texto secundário */
+  --linha:#D5D8D2;        /* fios e bordas */
+  --sinal:#FFB400;        /* amarelo alta visibilidade (destaque) */
+  --sinal-tinta:#15191E;  /* texto sobre o amarelo */
+  --link:#1D4ED8;
+  --f-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --f-texto:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",Consolas,"Courier New",monospace;
+  --raio:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --papel:#0F1215; --folha:#171B20; --tinta:#E9EBE6; --tinta-2:#A7ADB4; --linha:#2B3138;
+    --sinal:#FFB400; --sinal-tinta:#15191E; --link:#7EA6FF; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --papel:#0F1215; --folha:#171B20; --tinta:#E9EBE6; --tinta-2:#A7ADB4; --linha:#2B3138;
+  --sinal:#FFB400; --sinal-tinta:#15191E; --link:#7EA6FF; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--papel);color:var(--tinta);font:16px/1.6 var(--f-texto);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--link)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--sinal);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;letter-spacing:.2px;line-height:1.02;margin:0}
+.mono{font-family:var(--f-mono)}
+.eti{font:600 12.5px var(--f-mono);letter-spacing:1.6px;text-transform:uppercase;color:var(--tinta-2)}
+
+/* ---------- topo ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--papel)}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--papel) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--linha);margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px))) 0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+header.nav .wrap{display:flex;align-items:center;gap:20px;min-height:60px;flex-wrap:wrap}
+.marca{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--tinta)}
+.marca b{font:800 20px var(--f-display);letter-spacing:.5px}
+.marca i{width:30px;height:30px;border-radius:4px;background:var(--sinal);color:var(--sinal-tinta);display:grid;place-items:center;font:800 15px var(--f-display);font-style:normal}
+nav.menu{display:flex;gap:18px;margin-left:auto;flex-wrap:wrap}
+nav.menu a{color:var(--tinta-2);text-decoration:none;font-weight:500;font-size:15px}
+nav.menu a:hover{color:var(--tinta)}
+
+/* ---------- abertura ---------- */
+.abertura{padding-block:64px 40px;display:grid;gap:36px}
+.abertura h1{font-size:clamp(46px,8.2vw,104px);font-weight:800;text-transform:uppercase}
+.abertura h1 mark{background:var(--sinal);color:var(--sinal-tinta);padding:0 .12em;border-radius:3px}
+.abertura p.lead{font-size:clamp(18px,2.2vw,21px);color:var(--tinta-2);max-width:62ch;margin:0}
+.acoes{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:var(--raio);font:600 15.5px var(--f-texto);text-decoration:none;border:1.5px solid var(--tinta);color:var(--tinta);background:transparent;cursor:pointer}
+.btn.pri{background:var(--tinta);color:var(--papel)}
+.btn:hover{transform:translateY(-1px)}
+
+/* rota planilha -> sistema */
+.rota{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);padding:22px 22px 18px;overflow-x:auto}
+.rota svg{display:block;min-width:720px;width:100%;height:auto}
+.rota text{font-family:var(--f-mono);fill:var(--tinta-2);font-size:12px}
+.rota .nome{font-family:var(--f-display);font-weight:700;font-size:19px;fill:var(--tinta)}
+.rota .ponta{font-family:var(--f-display);font-weight:800;font-size:22px;fill:var(--tinta);letter-spacing:.5px}
+.rota .estrada{stroke:var(--linha);stroke-width:10;stroke-linecap:round;fill:none}
+.rota .faixa{stroke:var(--sinal);stroke-width:3;stroke-dasharray:14 12;fill:none;animation:anda 1.6s linear infinite}
+.rota .parada{fill:var(--folha);stroke:var(--tinta);stroke-width:3}
+.rota .base{fill:var(--tinta)}
+.rota .base-txt{fill:var(--papel);font:700 12px var(--f-mono)}
+.rota a text{cursor:pointer}
+@keyframes anda{to{stroke-dashoffset:-26}}
+.rota-leg{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:10px}
+
+/* ---------- seções ---------- */
+section.bloco{padding-block:56px}
+.cab-sec{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px;border-bottom:2px solid var(--tinta);padding-bottom:12px}
+.cab-sec h2{font-size:clamp(36px,5vw,56px);font-weight:800;text-transform:uppercase}
+
+/* etiqueta de carga (projeto) */
+.carga{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);overflow:hidden;margin-bottom:28px;scroll-margin-top:80px}
+.carga:nth-of-type(even){grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
+.carga:nth-of-type(even) .fotos{order:2}
+.fotos{background:var(--papel);border-right:1px solid var(--linha);padding:18px;display:grid;gap:12px;align-content:start}
+.carga:nth-of-type(even) .fotos{border-right:0;border-left:1px solid var(--linha)}
+.fotos button{all:unset;cursor:zoom-in;display:block;border-radius:4px;overflow:hidden;border:1px solid var(--linha);background:var(--folha)}
+.fotos button:focus-visible{outline:3px solid var(--sinal);outline-offset:2px}
+.fotos img{display:block;width:100%;height:auto}
+.fotos .mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.fotos .mini img{height:96px;object-fit:cover;object-position:top left}
+.info{padding:24px 26px 26px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.guia{display:grid;grid-template-columns:auto 1fr;border:1.5px solid var(--tinta);border-radius:4px;font-family:var(--f-mono);font-size:12.5px}
+.guia div{padding:6px 10px;border-bottom:1px solid var(--linha)}
+.guia div:nth-last-child(-n+2){border-bottom:0}
+.guia .k{border-right:1px solid var(--linha);color:var(--tinta-2);text-transform:uppercase;letter-spacing:1px}
+.guia .codigo{background:var(--sinal);color:var(--sinal-tinta);font-weight:600}
+.info h3{font-size:clamp(30px,3.4vw,40px);font-weight:800;text-transform:uppercase}
+.info p{margin:0;color:var(--tinta-2)}
+.info ul{margin:0;padding-left:0;list-style:none;display:grid;gap:8px}
+.info li{padding-left:22px;position:relative}
+.info li::before{content:"";position:absolute;left:2px;top:.62em;width:10px;height:10px;border:2.5px solid var(--tinta);border-radius:50%;background:var(--sinal)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.tags span{font:500 12.5px var(--f-mono);border:1px solid var(--linha);border-radius:3px;padding:3px 8px;color:var(--tinta)}
+
+/* como trabalho */
+.passos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1.5px solid var(--tinta);border-radius:var(--raio);overflow:hidden;background:var(--folha)}
+.passo{padding:24px;border-right:1px solid var(--linha);display:flex;flex-direction:column;gap:10px}
+.passo:last-child{border-right:0}
+.passo .eti{color:var(--tinta)}
+.passo h3{font-size:28px;font-weight:800;text-transform:uppercase}
+.passo p{margin:0;color:var(--tinta-2)}
+
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.pilha{border-top:3px solid var(--tinta);padding-top:12px}
+.pilha h3{font-size:22px;font-weight:700;text-transform:uppercase;margin-bottom:8px}
+.pilha p{margin:0;font:14px/1.9 var(--f-mono);color:var(--tinta-2)}
+
+/* contato */
+.contato{background:var(--tinta);color:var(--papel);border-radius:var(--raio);padding:36px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:center}
+.contato h2{font-size:clamp(36px,5vw,58px);font-weight:800;text-transform:uppercase}
+.contato p{margin:10px 0 0;opacity:.85}
+.canais{display:grid;gap:10px}
+.canal{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--papel) 30%,transparent);border-radius:4px;color:var(--papel);text-decoration:none;font-family:var(--f-mono);font-size:14px;min-width:0}
+.canal b{font-family:var(--f-texto);font-weight:600}
+.canal span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.canal.vazio{border-style:dashed;opacity:.7}
+a.canal:hover{background:color-mix(in srgb,var(--papel) 10%,transparent)}
+footer{padding-block:28px 40px;color:var(--tinta-2);font-size:13.5px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+
+/* trajetória (rota de carreira) */
+.trajeto{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;position:relative}
+.trajeto::before{content:"";position:absolute;left:0;right:0;top:15px;height:6px;border-radius:3px;background:var(--linha)}
+.trajeto li{position:relative;padding:44px 14px 0 0;min-width:0}
+.trajeto li::before{content:"";position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:var(--folha);border:4px solid var(--tinta)}
+.trajeto li.atual::before{background:var(--sinal)}
+.trajeto .quando{font:600 13px var(--f-mono);color:var(--tinta-2);letter-spacing:1px;text-transform:uppercase}
+.trajeto h3{font-size:22px;font-weight:800;text-transform:uppercase;margin:4px 0 2px}
+.trajeto .onde{margin:0;color:var(--tinta-2);font-size:14.5px}
+.trajeto li.atual .quando{color:var(--tinta)}
+.trajeto .selo{display:inline-block;margin-top:8px;background:var(--sinal);color:var(--sinal-tinta);font:600 11.5px var(--f-mono);letter-spacing:1px;padding:2px 8px;border-radius:3px;text-transform:uppercase}
+@media (max-width:860px){
+  .trajeto{grid-template-columns:1fr;gap:18px}
+  .trajeto::before{left:9px;right:auto;top:0;bottom:0;width:6px;height:auto}
+  .trajeto li{padding:0 0 0 44px}
+  .trajeto li::before{top:2px}
+}
+
+/* ampliar imagem */
+dialog{border:0;padding:0;max-width:min(1400px,96vw);background:transparent}
+dialog::backdrop{background:rgba(8,10,12,.82)}
+dialog img{display:block;max-width:100%;max-height:86vh;border-radius:4px}
+dialog .fechar{position:absolute;top:8px;right:8px;background:var(--sinal);color:var(--sinal-tinta);border:0;border-radius:4px;font:700 14px var(--f-texto);padding:6px 12px;cursor:pointer}
+dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
+
+@media (max-width:860px){
+  .carga,.carga:nth-of-type(even){grid-template-columns:1fr}
+  .carga:nth-of-type(even) .fotos{order:0;border-left:0}
+  .fotos{border-right:0;border-bottom:1px solid var(--linha)}
+  .passos{grid-template-columns:1fr}
+  .passo{border-right:0;border-bottom:1px solid var(--linha)}
+  .passo:last-child{border-bottom:0}
+  .contato{grid-template-columns:1fr;padding:26px}
+  nav.menu{gap:14px;width:100%;margin-left:0;padding-bottom:10px}
+}
+</style>
+
+</head>
+<body>
+<header class="nav"><div class="wrap">
+  <a class="marca" href="#topo"><i>NA</i><b>NATHAN ALVES</b></a>
+  <nav class="menu" aria-label="Seções">
+    <a href="#projetos">Projetos</a><a href="#trajetoria">Trajetória</a><a href="#como">Como eu trabalho</a><a href="#stack">Stack</a><a href="#contato">Contato</a>
+  </nav>
+</div></header>
+
+<main class="wrap" id="topo">
+  <section class="abertura" aria-labelledby="t-abertura">
+    <div class="eti">Analista Pleno · Automação · Dados · Logística</div>
+    <h1 id="t-abertura">Eu tiro a operação da <mark>planilha</mark>.</h1>
+    <p class="lead">Sou Analista Pleno na operação de transporte da J&amp;T Express, em Barueri (SP). Comecei como auxiliar de loja, passei pela separação de pedidos e pelo recebimento de um CD, e hoje desenvolvo as ferramentas da equipe: portais, painéis em tempo real e robôs que assumem o trabalho repetitivo, sempre a partir da regra de quem está na operação.</p>
+    <div class="acoes">
+      <a class="btn pri" href="#projetos">Ver os projetos</a>
+      <a class="btn" href="https://www.linkedin.com/in/nathan-alves-dos-santos-773978203/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="#contato">Falar comigo</a>
+    </div>
+
+    <div class="rota" aria-label="Rota dos projetos, da planilha ao sistema">
+      <svg viewBox="0 0 1060 170" role="img" aria-labelledby="rota-t">
+        <title id="rota-t">Rota: planilha, cinco projetos e sistema</title>
+        <path class="estrada" d="M70 92 H990"/>
+        <path class="faixa" d="M70 92 H990"/>
+        <g><rect class="base" x="8" y="70" width="104" height="44" rx="4"/><text class="base-txt" x="60" y="97" text-anchor="middle">PLANILHA</text></g>
+        <g><rect class="base" x="948" y="70" width="104" height="44" rx="4" style="fill:var(--sinal)"/><text class="base-txt" x="1000" y="97" text-anchor="middle" style="fill:var(--sinal-tinta)">SISTEMA</text></g>
+        <a href="#p1"><circle class="parada" cx="215" cy="92" r="11"/><text x="215" y="50" text-anchor="middle">NA-01</text><text class="nome" x="215" y="140" text-anchor="middle">J&amp;T Check</text></a>
+        <a href="#p2"><circle class="parada" cx="365" cy="92" r="11"/><text x="365" y="50" text-anchor="middle">NA-02</text><text class="nome" x="365" y="140" text-anchor="middle">Painel ao vivo</text></a>
+        <a href="#p3"><circle class="parada" cx="525" cy="92" r="11"/><text x="525" y="50" text-anchor="middle">NA-03</text><text class="nome" x="525" y="140" text-anchor="middle">Robô de batidas</text></a>
+        <a href="#p4"><circle class="parada" cx="685" cy="92" r="11"/><text x="685" y="50" text-anchor="middle">NA-04</text><text class="nome" x="685" y="140" text-anchor="middle">Robô de SM's</text></a>
+        <a href="#p5"><circle class="parada" cx="845" cy="92" r="11"/><text x="845" y="50" text-anchor="middle">NA-05</text><text class="nome" x="845" y="140" text-anchor="middle">Gestão de motoristas</text></a>
+      </svg>
+      <div class="rota-leg"><span class="eti">Origem: processos manuais</span><span class="eti">Destino: ferramenta em uso na operação</span></div>
+    </div>
+  </section>
+
+  <section class="bloco" id="projetos" aria-labelledby="t-proj">
+    <div class="cab-sec"><h2 id="t-proj">Projetos</h2><span class="eti">Telas com dados fictícios</span></div>
+
+    <article class="carga" id="p1">
+      <div class="fotos">
+        <button data-img="img/jtcheck-multas.jpg" data-leg="J&amp;T Check · resumo de multas da transportadora"><img src="img/jtcheck-multas.jpg" alt="Resumo de multas de uma transportadora no J&amp;T Check"></button>
+        <div class="mini">
+          <button data-img="img/jtcheck-cartao.jpg" data-leg="Cartão de viagem com atraso e botão para justificar"><img src="img/jtcheck-cartao.jpg" alt="Cartão de viagem com atraso"></button>
+          <button data-img="img/jtcheck-justificar.jpg" data-leg="Formulário de justificativa com fotos de evidência"><img src="img/jtcheck-justificar.jpg" alt="Formulário de justificativa"></button>
+        </div>
+      </div>
+      <div class="info">
+        <div class="guia"><div class="k">Código</div><div class="codigo">NA-01</div><div class="k">Trecho</div><div>E-mail e planilha → portal com prazo e histórico</div><div class="k">Usuários</div><div>Transportadoras, administração e diretoria</div></div>
+        <h3>J&amp;T Check</h3>
+        <p>Multas e atrasos das transportadoras eram tratados em planilhas e e-mails soltos, sem histórico nem prazo claro.</p>
+        <ul>
+          <li>Portal onde cada transportadora vê as próprias multas e atrasos e envia justificativas com fotos.</li>
+          <li>Área do administrador para aceitar ou negar, com prazo por quinzena e um perfil só de leitura para a diretoria.</li>
+          <li>API própria em FastAPI + MySQL, num servidor com Docker e HTTPS; app Android e e-mails automáticos a cada quinzena.</li>
+          <li>Interface em português e mandarim.</li>
+        </ul>
+        <div class="tags"><span>JavaScript</span><span>FastAPI</span><span>MySQL</span><span>Docker</span><span>Traefik</span><span>Android</span><span>SMTP</span></div>
+      </div>
+    </article>
+
+    <article class="carga" id="p2">
+      <div class="fotos">
+        <button data-img="img/painel-mapa.jpg" data-leg="Mapa ao vivo na TV: viagens em andamento e atrasos"><img src="img/painel-mapa.jpg" alt="Mapa ao vivo com caminhões em viagem"></button>
+        <div class="mini"><button data-img="img/painel-geral.jpg" data-leg="Resumo do dia: saídas, chegadas e transportadoras com mais atrasos"><img src="img/painel-geral.jpg" alt="Resumo do dia"></button></div>
+      </div>
+      <div class="info">
+        <div class="guia"><div class="k">Código</div><div class="codigo">NA-02</div><div class="k">Trecho</div><div>Relatório exportado à mão → TV atualizada a cada 5 min</div><div class="k">Usuários</div><div>Equipe de monitoramento da linha</div></div>
+        <h3>Painel de viagens ao vivo</h3>
+        <p>Acompanhar centenas de viagens por dia dependia de exportar relatórios do sistema e montar planilhas.</p>
+        <ul>
+          <li>Extensão do Chrome que exporta o relatório do sistema a cada 5 minutos, sozinha.</li>
+          <li>Servidor em Python que aplica as regras da operação (lacre, viagens com vários trechos, tolerância) e grava em banco.</li>
+          <li>Tela para TV com mapa animado, saídas e chegadas atrasadas e resumo do dia, alternando sozinha.</li>
+        </ul>
+        <div class="tags"><span>Python</span><span>Extensão Chrome</span><span>SQLite/PostgreSQL</span><span>Leaflet</span><span>Render</span></div>
+      </div>
+    </article>
+
+    <article class="carga" id="p3">
+      <div class="fotos">
+        <button data-img="img/robo-batidas.jpg" data-leg="Robô de saída e chegada: pendências do dia e regra aplicada"><img src="img/robo-batidas.jpg" alt="Robô de saída e chegada com a lista de batidas pendentes"></button>
+      </div>
+      <div class="info">
+        <div class="guia"><div class="k">Código</div><div class="codigo">NA-03</div><div class="k">Trecho</div><div>Correção uma a uma → lote conferido</div><div class="k">Usuários</div><div>Analistas da operação</div></div>
+        <h3>Robô de saída e chegada</h3>
+        <p>Viagem sem registro de saída ou chegada vira multa, e corrigir uma a uma no sistema era lento.</p>
+        <ul>
+          <li>Baixa o relatório do dia e encontra cada batida que falta, por base.</li>
+          <li>Sugere o horário por regras em cascata (lacre, horário planejado − 20 min…) e confere a base antes de bater.</li>
+          <li>Bate em lote, confirma cada uma no sistema e guarda o relatório original para conferir multas.</li>
+        </ul>
+        <div class="tags"><span>Python</span><span>Tkinter</span><span>Extensão Chrome</span><span>API REST</span></div>
+      </div>
+    </article>
+
+    <article class="carga" id="p4">
+      <div class="fotos">
+        <button data-img="img/robo-sm.jpg" data-leg="Robô de SM's: viagens do dia, rota casada e número da SM"><img src="img/robo-sm.jpg" alt="Robô de SM's com as viagens do dia"></button>
+      </div>
+      <div class="info">
+        <div class="guia"><div class="k">Código</div><div class="codigo">NA-04</div><div class="k">Trecho</div><div>Digitação no portal → solicitação criada sozinha</div><div class="k">Usuários</div><div>Monitoramento de risco</div></div>
+        <h3>Robô de SM's</h3>
+        <p>Cada viagem precisava de uma solicitação de monitoramento de carga digitada à mão no portal da gerenciadora de risco.</p>
+        <ul>
+          <li>Lê as planilhas de programação das transportadoras e casa cada viagem com a rota cadastrada.</li>
+          <li>Cria a solicitação no portal sem duplicar e grava o número de volta na planilha.</li>
+          <li>Versão portátil (.exe) para rodar em qualquer computador da operação.</li>
+        </ul>
+        <div class="tags"><span>Python</span><span>Tkinter</span><span>Automação HTTP</span><span>Google Apps Script</span><span>PyInstaller</span></div>
+      </div>
+    </article>
+
+    <article class="carga" id="p5">
+      <div class="fotos">
+        <button data-img="img/gestao-geral.jpg" data-leg="Gestão de motoristas: visão geral do mês"><img src="img/gestao-geral.jpg" alt="Painel de gestão de motoristas"></button>
+        <div class="mini"><button data-img="img/gestao-lancar.jpg" data-leg="Lançar presenças: a chamada do dia, gravada na planilha"><img src="img/gestao-lancar.jpg" alt="Tela de lançar presenças"></button></div>
+      </div>
+      <div class="info">
+        <div class="guia"><div class="k">Código</div><div class="codigo">NA-05</div><div class="k">Trecho</div><div>Planilha grande → painel + edição com backup</div><div class="k">Usuários</div><div>Coordenação da frota própria</div></div>
+        <h3>Gestão de motoristas</h3>
+        <p>Presença, rotas, CNH e férias da frota própria estavam numa planilha grande, difícil de ler e cheia de inconsistências.</p>
+        <ul>
+          <li>Painel com assiduidade, rotas por dia e alertas de CNH vencida e férias próximas.</li>
+          <li>Telas para lançar a chamada do dia e editar o cadastro, gravando na própria planilha, com backup.</li>
+          <li>Validador que encontrou as inconsistências da base e importação dos destinos de cada rota.</li>
+        </ul>
+        <div class="tags"><span>Python</span><span>JavaScript</span><span>Excel/SharePoint</span><span>Google Sheets</span><span>PyInstaller</span></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="bloco" id="trajetoria" aria-labelledby="t-traj">
+    <div class="cab-sec"><h2 id="t-traj">Trajetória</h2><span class="eti">Da loja ao sistema · 5 anos</span></div>
+    <ol class="trajeto">
+      <li><span class="quando">Mai/2021</span><h3>Auxiliar de Loja</h3><p class="onde">Pirueta Comercial · São Paulo, SP</p></li>
+      <li><span class="quando">Dez/2021</span><h3>Operador de Logística</h3><p class="onde">Shopper.com.br · São Paulo, SP</p></li>
+      <li><span class="quando">Ago/2022</span><h3>Recebimento</h3><p class="onde">TPC Logística Inteligente · Cotia, SP</p></li>
+      <li><span class="quando">Jun/2023</span><h3>Operador de Logística</h3><p class="onde">J&amp;T Express · Barueri, SP</p></li>
+      <li><span class="quando">Mai/2024</span><h3>Assistente de Transportes</h3><p class="onde">J&amp;T Express · Barueri, SP</p></li>
+      <li><span class="quando">Mar/2026</span><h3>Analista Júnior</h3><p class="onde">J&amp;T Express · Barueri, SP</p></li>
+      <li class="atual"><span class="quando">Nov/2026</span><h3>Analista Pleno</h3><p class="onde">J&amp;T Express · Barueri, SP</p><span class="selo">Atual</span></li>
+    </ol>
+  </section>
+
+  <section class="bloco" id="como" aria-labelledby="t-como">
+    <div class="cab-sec"><h2 id="t-como">Como eu trabalho</h2></div>
+    <div class="passos">
+      <div class="passo"><span class="eti">Antes do código</span><h3>Entender a regra</h3><p>Cada ferramenta começa com a pergunta de quem usa. A regra de negócio é confirmada com a operação antes de virar código.</p></div>
+      <div class="passo"><span class="eti">Antes de publicar</span><h3>Conferir os dados</h3><p>Validação contra a fonte, backup antes de gravar e nenhum número publicado sem bater com a planilha de origem.</p></div>
+      <div class="passo"><span class="eti">Depois de publicar</span><h3>Melhorar em ciclos curtos</h3><p>Entrego uma versão que já resolve o problema e ajusto com o retorno de quem está usando no dia a dia.</p></div>
+    </div>
+  </section>
+
+  <section class="bloco" id="stack" aria-labelledby="t-stack">
+    <div class="cab-sec"><h2 id="t-stack">Stack</h2></div>
+    <div class="stack">
+      <div class="pilha"><h3>Linguagens</h3><p>Python · JavaScript · SQL · HTML/CSS · PowerShell</p></div>
+      <div class="pilha"><h3>Back-end e dados</h3><p>FastAPI · MySQL · PostgreSQL · SQLite · openpyxl · Excel/SharePoint (COM)</p></div>
+      <div class="pilha"><h3>Automação</h3><p>Extensões Chrome (MV3) · Google Apps Script · Tkinter · PyInstaller</p></div>
+      <div class="pilha"><h3>Infraestrutura</h3><p>Docker · Traefik/HTTPS · VPS Linux · GitHub · Render · Android (WebView)</p></div>
+    </div>
+  </section>
+
+  <section class="bloco" id="contato" aria-labelledby="t-contato">
+    <div class="contato">
+      <div><h2 id="t-contato">Vamos conversar</h2><p>Se a sua operação ainda depende de planilha e retrabalho, eu gosto desse tipo de problema.</p></div>
+      <div class="canais">
+        <a class="canal" href="https://github.com/NathanAlves2001" target="_blank" rel="noopener"><b>GitHub</b><span>github.com/NathanAlves2001</span></a>
+        <a class="canal" href="https://www.linkedin.com/in/nathan-alves-dos-santos-773978203/" target="_blank" rel="noopener"><b>LinkedIn</b><span>in/nathan-alves-dos-santos</span></a>
+        <a class="canal" href="mailto:nathanalvesantos2019@hotmail.com"><b>E-mail</b><span>nathanalvesantos2019@hotmail.com</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer><span>Nathan Alves dos Santos · Carapicuíba, SP</span><span>As telas dos projetos usam dados fictícios.</span></footer>
+</main>
+
+<dialog id="zoom" aria-label="Imagem ampliada"><button class="fechar" id="fechar">Fechar</button><img id="zoom-img" alt=""><p id="zoom-leg"></p></dialog>
+
+<script>
+(() => {
+  const dlg = document.getElementById("zoom"), img = document.getElementById("zoom-img"), leg = document.getElementById("zoom-leg");
+  document.querySelectorAll(".fotos button").forEach(b => b.addEventListener("click", () => {
+    img.src = b.dataset.img; img.alt = b.dataset.leg || ""; leg.textContent = b.dataset.leg || "";
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+  }));
+  document.getElementById("fechar").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+})();
+</script>
+
+</body>
+</html>
