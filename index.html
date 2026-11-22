@@ -68,6 +68,46 @@ nav.menu a:hover{color:var(--tinta)}
 .btn.pri{background:var(--tinta);color:var(--papel)}
 .btn:hover{transform:translateY(-1px)}
 
+
+/* abertura em duas colunas: texto + colagem de telas */
+.hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:48px;align-items:center}
+.hero-txt{display:flex;flex-direction:column;gap:22px;min-width:0}
+.abertura .hero h1{font-size:clamp(46px,6.4vw,88px)}
+.numeros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:6px 0 0;border-top:1px solid var(--linha)}
+.numeros div{padding:14px 14px 0 0}
+.numeros div+div{padding-left:16px;border-left:1px solid var(--linha)}
+.numeros dt{font:800 46px/1 var(--f-display)}
+.numeros dd{margin:6px 0 0;color:var(--tinta-2);font-size:14px;line-height:1.35}
+.colagem{position:relative;height:460px}
+.colagem figure{position:absolute;margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--linha);background:var(--folha);box-shadow:0 18px 50px rgba(0,0,0,.28);transition:transform .35s ease}
+.colagem img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
+.colagem .c1{width:88%;height:300px;right:0;top:0;transform:rotate(2deg);z-index:1}
+.colagem .c2{width:64%;height:210px;left:0;top:178px;transform:rotate(-3deg);z-index:2}
+.colagem .c3{width:62%;height:190px;right:4%;bottom:0;transform:rotate(1.5deg);z-index:3}
+.colagem:hover .c1{transform:rotate(1deg) translateY(-6px)}
+.colagem:hover .c2{transform:rotate(-2deg) translateY(-6px)}
+.colagem:hover .c3{transform:rotate(.5deg) translateY(-6px)}
+.selo-uso{position:absolute;left:4%;bottom:26px;z-index:4;background:var(--sinal);color:var(--sinal-tinta);border-radius:6px;padding:12px 16px;font:600 13px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.8px;box-shadow:0 10px 30px rgba(0,0,0,.25);transform:rotate(-4deg)}
+.selo-uso b{display:block;font:800 40px/1 var(--f-display)}
+@media (max-width:960px){
+  .hero{grid-template-columns:1fr;gap:28px}
+  .colagem{height:340px}
+  .colagem .c1{height:220px}
+  .colagem .c2{top:130px;height:160px}
+  .colagem .c3{height:150px}
+}
+@media (max-width:520px){
+  .numeros dt{font-size:36px}
+  .numeros div+div{padding-left:12px}
+  .numeros dd{font-size:13px}
+  .colagem{height:260px}
+  .colagem .c1{width:100%;height:180px}
+  .colagem .c2{width:70%;top:100px;height:130px}
+  .colagem .c3{display:none}
+  .selo-uso{bottom:6px;padding:9px 12px}
+  .selo-uso b{font-size:30px}
+}
+
 /* rota planilha -> sistema */
 .rota{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);padding:22px 22px 18px;overflow-x:auto}
 .rota svg{display:block;min-width:720px;width:100%;height:auto}
@@ -188,13 +228,28 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
 <main class="wrap" id="topo">
   <section class="abertura" aria-labelledby="t-abertura">
-    <div class="eti">Analista Pleno · Automação · Dados · Logística</div>
-    <h1 id="t-abertura">Eu tiro a operação da <mark>planilha</mark>.</h1>
-    <p class="lead">Sou Analista Pleno na operação de transporte da J&amp;T Express, em Barueri (SP). Comecei como auxiliar de loja, passei pela separação de pedidos e pelo recebimento de um CD, e hoje desenvolvo as ferramentas da equipe: portais, painéis em tempo real e robôs que assumem o trabalho repetitivo, sempre a partir da regra de quem está na operação.</p>
-    <div class="acoes">
-      <a class="btn pri" href="#projetos">Ver os projetos</a>
-      <a class="btn" href="https://www.linkedin.com/in/nathan-alves-dos-santos-773978203/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn" href="#contato">Falar comigo</a>
+    <div class="hero">
+      <div class="hero-txt">
+        <div class="eti">Analista Pleno · Automação · Dados · Logística</div>
+        <h1 id="t-abertura">Eu tiro a operação da <mark>planilha</mark>.</h1>
+        <p class="lead">Comecei como auxiliar de loja e cresci dentro da operação de transporte. Hoje crio as ferramentas da equipe: portais, painéis em tempo real e robôs que fazem o trabalho repetitivo.</p>
+        <div class="acoes">
+          <a class="btn pri" href="#projetos">Ver os projetos</a>
+          <a class="btn" href="https://www.linkedin.com/in/nathan-alves-dos-santos-773978203/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn" href="#contato">Falar comigo</a>
+        </div>
+        <dl class="numeros">
+          <div><dt>5</dt><dd>anos na logística</dd></div>
+          <div><dt>5</dt><dd>ferramentas criadas para a operação</dd></div>
+          <div><dt>7</dt><dd>cargos, da loja ao sistema</dd></div>
+        </dl>
+      </div>
+      <div class="colagem" aria-hidden="true">
+        <figure class="c1"><img src="img/painel-mapa.jpg" alt=""></figure>
+        <figure class="c2"><img src="img/gestao-geral.jpg" alt=""></figure>
+        <figure class="c3"><img src="img/robo-batidas.jpg" alt=""></figure>
+        <div class="selo-uso"><b>5</b> ferramentas<br>em uso na operação</div>
+      </div>
     </div>
 
     <div class="rota" aria-label="Rota dos projetos, da planilha ao sistema">
