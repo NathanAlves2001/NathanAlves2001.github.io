@@ -186,10 +186,10 @@ section.bloco{padding-block:56px}
 .passo p{margin:0;color:var(--tinta-2)}
 
 /* stack */
-.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px 24px}
 .pilha{border-top:3px solid var(--tinta);padding-top:12px}
 .pilha h3{font-size:22px;font-weight:700;text-transform:uppercase;margin-bottom:8px}
-.pilha p{margin:0;font:14px/1.9 var(--f-mono);color:var(--tinta-2)}
+.pilha h3{margin-bottom:12px}
 
 /* contato */
 .contato{background:var(--sinal);color:var(--sinal-tinta);border-radius:var(--raio);padding:36px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;align-items:center}
@@ -221,6 +221,18 @@ footer{padding-block:28px 40px;color:var(--tinta-2);font-size:13.5px;display:fle
   .trajeto li{padding:0 0 0 44px}
   .trajeto li::before{top:2px}
 }
+
+
+.tecs{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tec{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 5px;border:1px solid var(--linha);border-radius:999px;background:var(--folha);font:500 14px var(--f-texto);color:var(--tinta)}
+.tec img{width:28px;height:28px;padding:4px;border-radius:50%;background:#FFFFFF;border:1px solid #E6E6E8;object-fit:contain;display:block}
+.pilha .tambem{margin:10px 0 0;font:13px/1.6 var(--f-mono);color:var(--tinta-2)}
+.ia{margin-top:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;align-items:center;border:1.5px solid var(--tinta);border-left:6px solid var(--sinal);border-radius:var(--raio);background:var(--folha);padding:22px 26px}
+.ia-logo{width:72px;height:72px;border-radius:16px;background:#FFFFFF;border:1px solid #E6E6E8;display:grid;place-items:center}
+.ia-logo img{width:42px;height:42px;display:block}
+.ia h3{font-size:30px;font-weight:800;text-transform:uppercase;margin:4px 0 6px}
+.ia p{margin:0;color:var(--tinta-2);max-width:80ch}
+@media (max-width:600px){.ia{grid-template-columns:1fr;gap:14px;padding:18px}}
 
 /* ampliar imagem */
 dialog{border:0;padding:0;max-width:min(1400px,96vw);background:transparent}
@@ -405,15 +417,24 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
       <div class="passo"><span class="eti">Antes de publicar</span><h3>Conferir os dados</h3><p>Validação contra a fonte, backup antes de gravar e nenhum número publicado sem bater com a planilha de origem.</p></div>
       <div class="passo"><span class="eti">Depois de publicar</span><h3>Melhorar em ciclos curtos</h3><p>Entrego uma versão que já resolve o problema e ajusto com o retorno de quem está usando no dia a dia.</p></div>
     </div>
+    <div class="ia">
+      <div class="ia-logo"><img src="img/stack/claude.svg" alt="Logo do Claude" width="40" height="40"></div>
+      <div>
+        <span class="eti">IA no meu fluxo de trabalho</span>
+        <h3>Desenvolvo com o Claude</h3>
+        <p>Uso o Claude, a IA da Anthropic, no dia a dia do desenvolvimento: para escrever e revisar código, investigar erros, montar automações e analisar planilhas grandes. A IA acelera o trabalho; a regra de negócio, a conferência dos dados e a decisão do que vai para a operação continuam comigo.</p>
+      </div>
+    </div>
   </section>
 
   <section class="bloco" id="stack" aria-labelledby="t-stack">
     <div class="cab-sec"><h2 id="t-stack">Stack</h2></div>
     <div class="stack">
-      <div class="pilha"><h3>Linguagens</h3><p>Python · JavaScript · SQL · HTML/CSS · PowerShell</p></div>
-      <div class="pilha"><h3>Back-end e dados</h3><p>FastAPI · MySQL · PostgreSQL · SQLite · openpyxl · Excel/SharePoint (COM)</p></div>
-      <div class="pilha"><h3>Automação</h3><p>Extensões Chrome (MV3) · Google Apps Script · Tkinter · PyInstaller</p></div>
-      <div class="pilha"><h3>Infraestrutura</h3><p>Docker · Traefik/HTTPS · VPS Linux · GitHub · Render · Android (WebView)</p></div>
+      <div class="pilha"><h3>Linguagens</h3><ul class="tecs"><li class="tec"><img src="img/stack/python.svg" alt="" width="26" height="26">Python</li><li class="tec"><img src="img/stack/javascript.svg" alt="" width="26" height="26">JavaScript</li><li class="tec"><img src="img/stack/html5.svg" alt="" width="26" height="26">HTML5</li><li class="tec"><img src="img/stack/css3.svg" alt="" width="26" height="26">CSS3</li><li class="tec"><img src="img/stack/powershell.svg" alt="" width="26" height="26">PowerShell</li></ul><p class="tambem">Também: SQL</p></div>
+      <div class="pilha"><h3>Back-end e dados</h3><ul class="tecs"><li class="tec"><img src="img/stack/fastapi.svg" alt="" width="26" height="26">FastAPI</li><li class="tec"><img src="img/stack/mysql.svg" alt="" width="26" height="26">MySQL</li><li class="tec"><img src="img/stack/postgresql.svg" alt="" width="26" height="26">PostgreSQL</li><li class="tec"><img src="img/stack/sqlite.svg" alt="" width="26" height="26">SQLite</li><li class="tec"><img src="img/stack/pandas.svg" alt="" width="26" height="26">pandas</li><li class="tec"><img src="img/stack/excel.svg" alt="" width="26" height="26">Excel / SharePoint</li></ul><p class="tambem">Também: openpyxl</p></div>
+      <div class="pilha"><h3>Automação</h3><ul class="tecs"><li class="tec"><img src="img/stack/chrome.svg" alt="" width="26" height="26">Extensões Chrome</li><li class="tec"><img src="img/stack/appsscript.svg" alt="" width="26" height="26">Google Apps Script</li><li class="tec"><img src="img/stack/python.svg" alt="" width="26" height="26">Tkinter (apps desktop)</li></ul><p class="tambem">Também: PyInstaller (.exe), APIs REST</p></div>
+      <div class="pilha"><h3>Infraestrutura</h3><ul class="tecs"><li class="tec"><img src="img/stack/docker.svg" alt="" width="26" height="26">Docker</li><li class="tec"><img src="img/stack/traefik.svg" alt="" width="26" height="26">Traefik (HTTPS)</li><li class="tec"><img src="img/stack/linux.svg" alt="" width="26" height="26">Linux (VPS)</li><li class="tec"><img src="img/stack/git.svg" alt="" width="26" height="26">Git</li><li class="tec"><img src="img/stack/github.svg" alt="" width="26" height="26">GitHub</li><li class="tec"><img src="img/stack/render.svg" alt="" width="26" height="26">Render</li><li class="tec"><img src="img/stack/android.svg" alt="" width="26" height="26">Android</li></ul></div>
+      <div class="pilha"><h3>Inteligência artificial</h3><ul class="tecs"><li class="tec"><img src="img/stack/claude.svg" alt="" width="26" height="26">Claude (Anthropic)</li></ul><p class="tambem">Também: IA generativa no desenvolvimento e na análise de dados</p></div>
     </div>
   </section>
 
