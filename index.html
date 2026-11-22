@@ -133,11 +133,12 @@ section.bloco{padding-block:56px}
 .carga{background:var(--folha);border:1px solid var(--linha);border-radius:var(--raio);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);overflow:hidden;margin-bottom:28px;scroll-margin-top:80px}
 .carga:nth-of-type(even){grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)}
 .carga:nth-of-type(even) .fotos{order:2}
-.fotos{background:var(--papel);border-right:1px solid var(--linha);padding:18px;display:grid;gap:12px;align-content:start}
+.fotos{background:#1A1F25;border-right:1px solid var(--linha);padding:0;display:flex}
 .carga:nth-of-type(even) .fotos{border-right:0;border-left:1px solid var(--linha)}
-.fotos button{all:unset;cursor:zoom-in;display:block;border-radius:4px;overflow:hidden;border:1px solid var(--linha);background:var(--folha)}
+.fotos button{all:unset;cursor:zoom-in;display:block;flex:1;overflow:hidden;background:#1A1F25}
 .fotos button:focus-visible{outline:3px solid var(--sinal);outline-offset:2px}
-.fotos img{display:block;width:100%;height:auto}
+.fotos img{display:block;width:100%;height:100%;min-height:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .4s ease}
+.fotos button:hover img{transform:scale(1.02)}
 .fotos .mini{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
 .fotos .mini img{height:96px;object-fit:cover;object-position:top left}
 .info{padding:24px 26px 26px;display:flex;flex-direction:column;gap:14px;min-width:0}
@@ -276,11 +277,7 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
     <article class="carga" id="p1">
       <div class="fotos">
-        <button data-img="img/jtcheck-multas.jpg" data-leg="J&amp;T Check · resumo de multas da transportadora"><img src="img/jtcheck-multas.jpg" alt="Resumo de multas de uma transportadora no J&amp;T Check"></button>
-        <div class="mini">
-          <button data-img="img/jtcheck-cartao.jpg" data-leg="Cartão de viagem com atraso e botão para justificar"><img src="img/jtcheck-cartao.jpg" alt="Cartão de viagem com atraso"></button>
-          <button data-img="img/jtcheck-justificar.jpg" data-leg="Formulário de justificativa com fotos de evidência"><img src="img/jtcheck-justificar.jpg" alt="Formulário de justificativa"></button>
-        </div>
+        <button data-img="img/comp-jtcheck.jpg" data-leg="J&amp;T Check: resumo de multas, cartão de viagem, pontualidade e justificativa com fotos"><img src="img/comp-jtcheck.jpg" alt="J&amp;T Check: resumo de multas, cartão de viagem, pontualidade e justificativa com fotos"></button>
       </div>
       <div class="info">
         <div class="guia"><div class="k">Código</div><div class="codigo">NA-01</div><div class="k">Trecho</div><div>E-mail e planilha → portal com prazo e histórico</div><div class="k">Usuários</div><div>Transportadoras, administração e diretoria</div></div>
@@ -298,8 +295,7 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
     <article class="carga" id="p2">
       <div class="fotos">
-        <button data-img="img/painel-mapa.jpg" data-leg="Mapa ao vivo na TV: viagens em andamento e atrasos"><img src="img/painel-mapa.jpg" alt="Mapa ao vivo com caminhões em viagem"></button>
-        <div class="mini"><button data-img="img/painel-geral.jpg" data-leg="Resumo do dia: saídas, chegadas e transportadoras com mais atrasos"><img src="img/painel-geral.jpg" alt="Resumo do dia"></button></div>
+        <button data-img="img/comp-painel.jpg" data-leg="Painel ao vivo: mapa na TV e resumo do dia"><img src="img/comp-painel.jpg" alt="Painel ao vivo: mapa na TV e resumo do dia"></button>
       </div>
       <div class="info">
         <div class="guia"><div class="k">Código</div><div class="codigo">NA-02</div><div class="k">Trecho</div><div>Relatório exportado à mão → TV atualizada a cada 5 min</div><div class="k">Usuários</div><div>Equipe de monitoramento da linha</div></div>
@@ -316,7 +312,7 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
     <article class="carga" id="p3">
       <div class="fotos">
-        <button data-img="img/robo-batidas.jpg" data-leg="Robô de saída e chegada: pendências do dia e regra aplicada"><img src="img/robo-batidas.jpg" alt="Robô de saída e chegada com a lista de batidas pendentes"></button>
+        <button data-img="img/comp-robo-batidas.jpg" data-leg="Robô de saída e chegada: pendências do dia, regra aplicada e situação"><img src="img/comp-robo-batidas.jpg" alt="Robô de saída e chegada: pendências do dia, regra aplicada e situação"></button>
       </div>
       <div class="info">
         <div class="guia"><div class="k">Código</div><div class="codigo">NA-03</div><div class="k">Trecho</div><div>Correção uma a uma → lote conferido</div><div class="k">Usuários</div><div>Analistas da operação</div></div>
@@ -333,7 +329,7 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
     <article class="carga" id="p4">
       <div class="fotos">
-        <button data-img="img/robo-sm.jpg" data-leg="Robô de SM's: viagens do dia, rota casada e número da SM"><img src="img/robo-sm.jpg" alt="Robô de SM's com as viagens do dia"></button>
+        <button data-img="img/comp-robo-sm.jpg" data-leg="Robô de SM's: viagens do dia, número da SM e situação"><img src="img/comp-robo-sm.jpg" alt="Robô de SM's: viagens do dia, número da SM e situação"></button>
       </div>
       <div class="info">
         <div class="guia"><div class="k">Código</div><div class="codigo">NA-04</div><div class="k">Trecho</div><div>Digitação no portal → solicitação criada sozinha</div><div class="k">Usuários</div><div>Monitoramento de risco</div></div>
@@ -350,8 +346,7 @@ dialog p{color:#e9ebe6;font:13px var(--f-mono);margin:8px 2px 0}
 
     <article class="carga" id="p5">
       <div class="fotos">
-        <button data-img="img/gestao-geral.jpg" data-leg="Gestão de motoristas: visão geral do mês"><img src="img/gestao-geral.jpg" alt="Painel de gestão de motoristas"></button>
-        <div class="mini"><button data-img="img/gestao-lancar.jpg" data-leg="Lançar presenças: a chamada do dia, gravada na planilha"><img src="img/gestao-lancar.jpg" alt="Tela de lançar presenças"></button></div>
+        <button data-img="img/comp-gestao.jpg" data-leg="Gestão de motoristas: visão geral e lançamento de presenças"><img src="img/comp-gestao.jpg" alt="Gestão de motoristas: visão geral e lançamento de presenças"></button>
       </div>
       <div class="info">
         <div class="guia"><div class="k">Código</div><div class="codigo">NA-05</div><div class="k">Trecho</div><div>Planilha grande → painel + edição com backup</div><div class="k">Usuários</div><div>Coordenação da frota própria</div></div>
